@@ -228,7 +228,6 @@ function LoginPage() {
             
             <div className="text-xs text-center text-muted-foreground mt-4 p-2 bg-muted rounded">
                 <p><strong>Usuário Teste (Mock):</strong> finflow@teste.com / teste123</p>
-                <p className="mt-1"><strong>Usuário Real (Supabase):</strong> rafaasimi@hotmail.com / 175621</p>
             </div>
           </form>
         </CardContent>
