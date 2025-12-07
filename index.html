@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinFlow AI - Gestão Financeira Inteligente</title>
+    <!-- Geist Font Import -->
+    <link href="https://cdn.jsdelivr.net/npm/geist@1.0.0/dist/fonts/geist-sans/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/geist@1.0.0/dist/fonts/geist-mono/style.css" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              background: "var(--background)",
+              foreground: "var(--foreground)",
+              card: {
+                DEFAULT: "var(--card)",
+                foreground: "var(--card-foreground)",
+              },
+              popover: {
+                DEFAULT: "var(--popover)",
+                foreground: "var(--popover-foreground)",
+              },
+              primary: {
+                DEFAULT: "var(--primary)",
+                foreground: "var(--primary-foreground)",
+              },
+              secondary: {
+                DEFAULT: "var(--secondary)",
+                foreground: "var(--secondary-foreground)",
+              },
+              muted: {
+                DEFAULT: "var(--muted)",
+                foreground: "var(--muted-foreground)",
+              },
+              accent: {
+                DEFAULT: "var(--accent)",
+                foreground: "var(--accent-foreground)",
+              },
+              destructive: {
+                DEFAULT: "var(--destructive)",
+                foreground: "var(--destructive-foreground)",
+              },
+              border: "var(--border)",
+              input: "var(--input)",
+              ring: "var(--ring)",
+              chart: {
+                1: "var(--chart-1)",
+                2: "var(--chart-2)",
+                3: "var(--chart-3)",
+                4: "var(--chart-4)",
+                5: "var(--chart-5)",
+              },
+              sidebar: {
+                DEFAULT: "var(--sidebar)",
+                foreground: "var(--sidebar-foreground)",
+                primary: "var(--sidebar-primary)",
+                'primary-foreground': "var(--sidebar-primary-foreground)",
+                accent: "var(--sidebar-accent)",
+                'accent-foreground': "var(--sidebar-accent-foreground)",
+                border: "var(--sidebar-border)",
+                ring: "var(--sidebar-ring)",
+              }
+            },
+            borderRadius: {
+              lg: "var(--radius)",
+              md: "calc(var(--radius) - 2px)",
+              sm: "calc(var(--radius) - 4px)",
+            },
+            fontFamily: {
+              sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+              mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+            },
+            boxShadow: {
+              '2xs': "var(--shadow-2xs)",
+              xs: "var(--shadow-xs)",
+              sm: "var(--shadow-sm)",
+              DEFAULT: "var(--shadow)",
+              md: "var(--shadow-md)",
+              lg: "var(--shadow-lg)",
+              xl: "var(--shadow-xl)",
+              '2xl': "var(--shadow-2xl)",
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      :root {
+        --background: oklch(1.00 0 0);
+        --foreground: oklch(0.14 0 0);
+        --card: oklch(1.00 0 0);
+        --card-foreground: oklch(0.14 0 0);
+        --popover: oklch(1.00 0 0);
+        --popover-foreground: oklch(0.14 0 0);
+        --primary: oklch(0.20 0 0);
+        --primary-foreground: oklch(0.99 0 0);
+        --secondary: oklch(0.97 0 0);
+        --secondary-foreground: oklch(0.20 0 0);
+        --muted: oklch(0.97 0 0);
+        --muted-foreground: oklch(0.56 0 0);
+        --accent: oklch(0.97 0 0);
+        --accent-foreground: oklch(0.20 0 0);
+        --destructive: oklch(0.58 0.24 28.48);
+        --destructive-foreground: oklch(0.99 0 0);
+        --border: oklch(0.92 0 0);
+        --input: oklch(0.92 0 0);
+        --ring: oklch(0.71 0 0);
+        --chart-1: oklch(0.65 0.22 36.85);
+        --chart-2: oklch(0.60 0.11 184.15);
+        --chart-3: oklch(0.40 0.07 227.18);
+        --chart-4: oklch(0.83 0.17 81.03);
+        --chart-5: oklch(0.77 0.17 65.36);
+        --sidebar: oklch(0.99 0 0);
+        --sidebar-foreground: oklch(0.14 0 0);
+        --sidebar-primary: oklch(0.20 0 0);
+        --sidebar-primary-foreground: oklch(0.99 0 0);
+        --sidebar-accent: oklch(0.97 0 0);
+        --sidebar-accent-foreground: oklch(0.20 0 0);
+        --sidebar-border: oklch(0.92 0 0);
+        --sidebar-ring: oklch(0.708 0 0);
+
+        --font-sans: 'Geist Sans', 'Geist Fallback', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        --font-serif: "Geist Serif", "Geist Fallback", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+        --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+        --radius: 0.625rem;
+        
+        --shadow-2xs: 0 1px 3px 0px oklch(0.00 0 0 / 0.05);
+        --shadow-xs: 0 1px 3px 0px oklch(0.00 0 0 / 0.05);
+        --shadow-sm: 0 1px 3px 0px oklch(0.00 0 0 / 0.10), 0 1px 2px -1px oklch(0.00 0 0 / 0.10);
+        --shadow: 0 1px 3px 0px oklch(0.00 0 0 / 0.10), 0 1px 2px -1px oklch(0.00 0 0 / 0.10);
+        --shadow-md: 0 1px 3px 0px oklch(0.00 0 0 / 0.10), 0 2px 4px -1px oklch(0.00 0 0 / 0.10);
+        --shadow-lg: 0 1px 3px 0px oklch(0.00 0 0 / 0.10), 0 4px 6px -1px oklch(0.00 0 0 / 0.10);
+        --shadow-xl: 0 1px 3px 0px oklch(0.00 0 0 / 0.10), 0 8px 10px -1px oklch(0.00 0 0 / 0.10);
+        --shadow-2xl: 0 1px 3px 0px oklch(0.00 0 0 / 0.25);
+      }
+      
+      .dark {
+        --background: oklch(0.14 0 0);
+        --foreground: oklch(0.99 0 0);
+        --card: oklch(0.20 0 0);
+        --card-foreground: oklch(0.99 0 0);
+        --popover: oklch(0.20 0 0);
+        --popover-foreground: oklch(0.99 0 0);
+        --primary: oklch(0.92 0 0);
+        --primary-foreground: oklch(0.20 0 0);
+        --secondary: oklch(0.27 0 0);
+        --secondary-foreground: oklch(0.99 0 0);
+        --muted: oklch(0.27 0 0);
+        --muted-foreground: oklch(0.71 0 0);
+        --accent: oklch(0.27 0 0);
+        --accent-foreground: oklch(0.99 0 0);
+        --destructive: oklch(0.70 0.19 22.23);
+        --destructive-foreground: oklch(0.99 0 0);
+        --border: oklch(1.00 0 0 / 10%);
+        --input: oklch(1.00 0 0 / 15%);
+        --ring: oklch(0.56 0 0);
+        --chart-1: oklch(0.49 0.24 264.40);
+        --chart-2: oklch(0.70 0.16 160.43);
+        --chart-3: oklch(0.77 0.17 65.36);
+        --chart-4: oklch(0.62 0.26 305.32);
+        --chart-5: oklch(0.64 0.25 16.51);
+        --sidebar: oklch(0.20 0 0);
+        --sidebar-foreground: oklch(0.99 0 0);
+        --sidebar-primary: oklch(0.49 0.24 264.40);
+        --sidebar-primary-foreground: oklch(0.99 0 0);
+        --sidebar-accent: oklch(0.27 0 0);
+        --sidebar-accent-foreground: oklch(0.99 0 0);
+        --sidebar-border: oklch(1.00 0 0 / 10%);
+        --sidebar-ring: oklch(0.56 0 0);
+        
+        --shadow-2xs: 0 1px 3px 0px oklch(0.00 0 0 / 0.05);
+        --shadow-xs: 0 1px 3px 0px oklch(0.00 0 0 / 0.05);
+        --shadow-sm: 0 1px 3px 0px oklch(0.00 0 0 / 0.10), 0 1px 2px -1px oklch(0.00 0 0 / 0.10);
+        --shadow: 0 1px 3px 0px oklch(0.00 0 0 / 0.10), 0 1px 2px -1px oklch(0.00 0 0 / 0.10);
+        --shadow-md: 0 1px 3px 0px oklch(0.00 0 0 / 0.10), 0 2px 4px -1px oklch(0.00 0 0 / 0.10);
+        --shadow-lg: 0 1px 3px 0px oklch(0.00 0 0 / 0.10), 0 4px 6px -1px oklch(0.00 0 0 / 0.10);
+        --shadow-xl: 0 1px 3px 0px oklch(0.00 0 0 / 0.10), 0 8px 10px -1px oklch(0.00 0 0 / 0.10);
+        --shadow-2xl: 0 1px 3px 0px oklch(0.00 0 0 / 0.25);
+      }
+
+      body {
+        background-color: var(--background);
+        color: var(--foreground);
+        font-family: var(--font-sans);
+        font-feature-settings: "rlig" 1, "calt" 1;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.1",
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.1/client",
+    "clsx": "https://aistudiocdn.com/clsx@^2.1.1",
+    "tailwind-merge": "https://aistudiocdn.com/tailwind-merge@^3.4.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.5.1",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.10.1",
+    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "@tanstack/react-query": "https://aistudiocdn.com/@tanstack/react-query@^5.90.12",
+    "@supabase/supabase-js": "https://aistudiocdn.com/@supabase/supabase-js@^2.46.2",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
