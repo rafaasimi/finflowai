@@ -12,8 +12,90 @@ export function formatCurrency(value: number) {
   }).format(value);
 }
 
+/**
+ * Converte uma string de data (YYYY-MM-DD ou ISO) para formato brasileiro (DD/MM/YYYY)
+ * Extrai diretamente da string para evitar problemas de timezone
+ */
 export function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("pt-BR");
+  if (!dateStr) return '';
+  
+  // Se a data vem no formato YYYY-MM-DD, extrai diretamente
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    const [year, month, day] = dateStr.split('-');
+    return `${day}/${month}/${year}`;
+  }
+  
+  // Se vem como ISO string (YYYY-MM-DDTHH:mm:ss.sssZ), extrai a parte da data
+  const datePart = dateStr.split('T')[0];
+  if (datePart && /^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
+    const [year, month, day] = datePart.split('-');
+    return `${day}/${month}/${year}`;
+  }
+  
+  // Fallback: usa Date mas extrai componentes UTC para preservar o dia
+  const date = new Date(dateStr);
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  return `${day}/${month}/${year}`;
+}
+
+/**
+ * Converte uma string de data do input (YYYY-MM-DD) para ISO string preservando o dia
+ * Usa meia-noite UTC para evitar problemas de timezone
+ */
+export function dateToISO(dateStr: string): string {
+  if (!dateStr) {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}T00:00:00.000Z`;
+  }
+  
+  // Extrai ano, mês e dia da string YYYY-MM-DD
+  const [year, month, day] = dateStr.split('-').map(Number);
+  
+  // Retorna como ISO string no formato YYYY-MM-DDTHH:mm:ss.sssZ
+  // Usando meia-noite UTC para preservar o dia independente do fuso horário
+  const yearStr = String(year).padStart(4, '0');
+  const monthStr = String(month).padStart(2, '0');
+  const dayStr = String(day).padStart(2, '0');
+  
+  return `${yearStr}-${monthStr}-${dayStr}T00:00:00.000Z`;
+}
+
+/**
+ * Converte uma data ISO para string YYYY-MM-DD para uso em inputs
+ * Extrai diretamente da string ISO para evitar problemas de timezone
+ */
+export function dateToInputFormat(dateStr: string): string {
+  if (!dateStr) {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+  
+  // Se já está no formato YYYY-MM-DD, retorna direto
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    return dateStr;
+  }
+  
+  // Extrai a parte da data da string ISO (YYYY-MM-DDTHH:mm:ss.sssZ)
+  const datePart = dateStr.split('T')[0];
+  if (datePart && /^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
+    return datePart;
+  }
+  
+  // Fallback: usa Date mas extrai componentes UTC para preservar o dia
+  const date = new Date(dateStr);
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}`;
 }
 
 export const CATEGORY_STYLES: Record<

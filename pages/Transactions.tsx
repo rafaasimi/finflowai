@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../services/api';
 import { Button, Input, Select, Card, CardContent, CardHeader, CardTitle, Label } from '../components/ui';
-import { formatCurrency, formatDate, cn, CATEGORY_STYLES } from '../lib/utils';
+import { formatCurrency, formatDate, dateToISO, dateToInputFormat, cn, CATEGORY_STYLES } from '../lib/utils';
 import { Transaction, Category, TransactionType, FixedExpense } from '../types';
 import { Plus, Trash2, Calendar, Repeat, CheckCircle, ArrowRightCircle, Pencil, ChevronLeft, ChevronRight, Filter, Calculator } from 'lucide-react';
 
@@ -476,7 +476,15 @@ function TransactionForm({ onClose, initialData }: { onClose: () => void, initia
     const [type, setType] = useState<TransactionType>(initialData?.type || 'expense');
     const [amount, setAmount] = useState(initialData?.amount?.toString() || '');
     const [category, setCategory] = useState<Category>(initialData?.category || 'Food');
-    const [date, setDate] = useState(initialData?.date ? new Date(initialData.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]);
+    const getTodayInputFormat = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+    
+    const [date, setDate] = useState(initialData?.date ? dateToInputFormat(initialData.date) : getTodayInputFormat());
     const [description, setDescription] = useState(initialData ? getInitialDescription(initialData.description) : '');
     const [installments, setInstallments] = useState(1);
     
@@ -519,7 +527,7 @@ function TransactionForm({ onClose, initialData }: { onClose: () => void, initia
                 type,
                 amount: finalAmount,
                 category,
-                date: new Date(date).toISOString(),
+                date: dateToISO(date),
                 description 
             });
         } else {
@@ -528,7 +536,7 @@ function TransactionForm({ onClose, initialData }: { onClose: () => void, initia
                     type,
                     amount: finalAmount,
                     category,
-                    date: new Date(date).toISOString(),
+                    date: dateToISO(date),
                     description
                 },
                 installments: type === 'expense' ? installments : 1

@@ -64,18 +64,51 @@ export const mockApi = {
     
     if (installments > 1 && tx.type === 'expense') {
         const amountPerInstallment = tx.amount / installments; // Simple division
-        const baseDate = new Date(tx.date);
         const originalId = crypto.randomUUID();
 
+        // Extrai ano, mês e dia diretamente da string ISO para evitar problemas de timezone
+        const datePart = tx.date.split('T')[0];
+        const [baseYear, baseMonth, baseDay] = datePart.split('-').map(Number);
+
+        // Helper function to add months correctly, preservando o dia quando possível
+        // month é 1-indexed (1 = janeiro, 12 = dezembro)
+        const addMonthsToDate = (year: number, month: number, day: number, monthsToAdd: number): { year: number, month: number, day: number } => {
+            let targetYear = year;
+            let targetMonth = month + monthsToAdd;
+            
+            // Ajusta o ano se necessário
+            while (targetMonth > 12) {
+                targetMonth -= 12;
+                targetYear += 1;
+            }
+            while (targetMonth < 1) {
+                targetMonth += 12;
+                targetYear -= 1;
+            }
+            
+            // Verifica quantos dias existem no mês alvo
+            // JavaScript usa meses 0-indexed, então targetMonth - 1 para o construtor
+            // new Date(year, month, 0) retorna o último dia do mês anterior
+            const daysInTargetMonth = new Date(targetYear, targetMonth, 0).getDate();
+            const finalDay = Math.min(day, daysInTargetMonth);
+            
+            return { year: targetYear, month: targetMonth, day: finalDay };
+        };
+
         for (let i = 0; i < installments; i++) {
-            const nextDate = new Date(baseDate);
-            nextDate.setMonth(baseDate.getMonth() + i);
+            const { year, month, day } = addMonthsToDate(baseYear, baseMonth, baseDay, i);
+            
+            // Converte para ISO preservando o dia exato
+            const yearStr = String(year).padStart(4, '0');
+            const monthStr = String(month).padStart(2, '0');
+            const dayStr = String(day).padStart(2, '0');
+            const dateISO = `${yearStr}-${monthStr}-${dayStr}T00:00:00.000Z`;
             
             newTxs.push({
                 ...tx,
                 id: crypto.randomUUID(),
                 amount: amountPerInstallment,
-                date: nextDate.toISOString(),
+                date: dateISO,
                 description: `${tx.description} (${i + 1}/${installments})`,
                 installments: {
                     current: i + 1,
@@ -180,6 +213,11 @@ export const mockApi = {
         if (!alreadyExists) {
             // Create date for the specific day of the target month
             const date = new Date(year, month, fe.dayOfMonth);
+            // Converte para ISO preservando o dia
+            const yearStr = String(date.getFullYear()).padStart(4, '0');
+            const monthStr = String(date.getMonth() + 1).padStart(2, '0');
+            const dayStr = String(date.getDate()).padStart(2, '0');
+            const dateISO = `${yearStr}-${monthStr}-${dayStr}T00:00:00.000Z`;
             
             newTransactions.push({
                 id: crypto.randomUUID(),
@@ -187,7 +225,7 @@ export const mockApi = {
                 amount: fe.amount,
                 category: fe.category,
                 description: fe.description,
-                date: date.toISOString(),
+                date: dateISO,
                 fixedExpenseId: fe.id
             });
         }

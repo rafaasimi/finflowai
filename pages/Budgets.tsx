@@ -1,20 +1,15 @@
 import React, { useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../services/api";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Progress,
-  Button,
-  Input,
-  Label,
-  Select,
-} from "../components/ui";
 import { formatCurrency, cn, CATEGORY_STYLES } from "../lib/utils";
 import { Category } from "../types";
 import { AlertTriangle, Plus } from "lucide-react";
+import { Button } from "@/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/card";
+import { Progress } from "@/components/progress";
+import { Label } from "@/components/label";
+import { Select } from "@/components/select";
+import { Input } from "@/components/input";
 
 export function Budgets() {
   const queryClient = useQueryClient();
