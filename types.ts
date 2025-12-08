@@ -1,16 +1,17 @@
-export type TransactionType = 'income' | 'expense';
+export type TransactionType = "income" | "expense";
 
-export type Category = 
-  | 'Housing' 
-  | 'Transport' 
-  | 'Food' 
-  | 'Entertainment' 
-  | 'Health' 
-  | 'Education' 
-  | 'Shopping' 
-  | 'Salary' 
-  | 'Investment' 
-  | 'Other';
+export type Category =
+  | "Housing"
+  | "Transport"
+  | "Food"
+  | "Entertainment"
+  | "Health"
+  | "Education"
+  | "Pets"
+  | "Clothing"
+  | "Salary"
+  | "Investment"
+  | "Other";
 
 export interface FixedExpense {
   id: string;

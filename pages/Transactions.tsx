@@ -380,7 +380,8 @@ function FixedExpensesModal({ onClose }: { onClose: () => void }) {
                                 <option value="Entertainment">Entretenimento</option>
                                 <option value="Health">Saúde</option>
                                 <option value="Education">Educação</option>
-                                <option value="Shopping">Compras</option>
+                                <option value="Pets">Animais de Estimação</option>
+                                <option value="Clothing">Roupas</option>
                                 <option value="Other">Outros</option>
                             </Select>
                         </div>
@@ -657,7 +658,8 @@ function TransactionForm({ onClose, initialData }: { onClose: () => void, initia
                                 <option value="Entertainment">Entretenimento</option>
                                 <option value="Health">Saúde</option>
                                 <option value="Education">Educação</option>
-                                <option value="Shopping">Compras</option>
+                                <option value="Pets">Animais de Estimação</option>
+                                <option value="Clothing">Roupas</option>
                                 <option value="Other">Outros</option>
                                 {type === 'income' && (
                                     <>
